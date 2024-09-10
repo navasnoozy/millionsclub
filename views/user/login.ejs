@@ -1,0 +1,84 @@
+<%- include('../layout/header') %>
+<main class="login-page-body">
+  <div class="login-model">
+
+      <h4 class="signup-heading">Welcome to MillionsClub</h4>
+      <h2 class="signup-heading">Login</h2>
+      <form class="signup-form" action="" method="POST">
+        
+        <div class="signup-input-div">
+          <i class="fa-solid fa-phone signup-icon"></i>
+          <input
+            class="signup-input"
+            type="tel"
+            name="phone"
+            placeholder="Enter your phone number"
+          />
+        </div>
+
+        <div class="seperator">
+            
+            <span class="or-text">or</span>
+            
+          </div>
+  
+
+        <div class="signup-input-div">
+          <i class="fa-regular fa-envelope signup-icon"></i>
+          <input
+            class="signup-input"
+            type="email"
+            name="email"
+            placeholder="Enter your email id"
+
+          />
+        </div>
+
+        <div class="signup-input-div mt-5">
+          <i class="fa-solid fa-lock signup-icon"></i>
+          <input
+            class="signup-input"
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button class="signup-button" type="submit">Login</button>
+        <div class="seperator">
+          <hr class="or-line" />
+          <span class="or-text">or Login with</span>
+          <hr class="or-line" />
+        </div>
+
+        <div class="alternative-signup-div">
+          <a href="/auth/google" class="alternative-signup-btn" type="submit">
+        <img class="google-icon-img" src="/image/googleicon.png" alt="">
+          </a>
+          <a class="alternative-signup-btn" type="submit">
+     <img class="fb-icon-img " src="/image/fb-icon.svg" alt="">
+          </a>
+        </div>
+
+       
+      </form>
+
+
+    <% if(typeof message!= 'undefined'){%>
+      <h6 style="color: rgb(249, 0, 0); margin-bottom: 30px"><%= message %></h2>
+      <% } %>
+
+
+      <div class="navigate">
+        <a class="signup-navigate-link" href="/home">Home</a>
+        <a class="signup-navigate-link" href="/signup">Create an account</a>
+       </div>
+
+    </div>
+</main>
+
+<%- include('../layout/footer') %>
+
+
+

@@ -1,0 +1,65 @@
+<%- include('../layout/header.ejs') %>
+<main class="login-page-body">
+  <div class="login-model">
+    <% if(typeof message!= 'undefined'){%>
+    <h2 style="color: green; margin-bottom: 30px"><%= message %></h2>
+
+    <% } %> <% if(typeof user!='undefined') {%>
+    <div class="seperator">
+      <hr class="or-line" />
+      <span class="or-text">or verify with your phone number</span>
+      <hr class="or-line" />
+    </div>
+
+
+
+    <form id="form" action="">
+      <div class="phone-verification">
+        <span class="phoneNumberDisplay"><%= user.phone %></span>
+
+        <input type="text" name="phone" hidden value="<%= user.phone %>" />
+        <button class="phoneNumber-change-btn">Change</button>
+      </div>
+      <button type="submit" class="get-otp">
+        Get OTP
+      </button>
+    </form>
+
+
+
+
+    <div class="container" id="otp-section">
+      <div id="Notification" style="color: rgb(240, 10, 10);"></div>
+      <div class="form-group row align-items-center mt-3">
+        <div class="col-md-6">
+          <input
+          name="otp"
+            type="text"
+            class="form-control"
+            id="otp"
+            placeholder="Enter OTP"
+          />
+        </div>
+        <div class="col-md-6 mt-2 mt-md-0">
+          <button class="btn btn-success">Verify OTP</button>
+        </div>
+
+        <div id="otpTimer" class="mt-2"></div>
+        <button id="resendOtpBtn" class="btn btn-secondary mt-2" style="display: none;">Resend OTP</button>
+
+
+        <div id="otpVerifyStatus" class="alert alert-success mt-3" role="alert">
+          
+        </div>
+    </div>
+
+    <% } %>
+
+    <div class="navigate">
+      <a class="signup-navigate-link" href="/home">Home</a>
+      <a class="signup-navigate-link" href="/login">Login</a>
+    </div>
+  </div>
+</main>
+
+<%- include('../layout/footer.ejs') %>

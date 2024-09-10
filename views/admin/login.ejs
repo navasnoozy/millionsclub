@@ -1,0 +1,45 @@
+<%- include('../layout/header') %>
+<main class="login-page-body">
+  <div class="login-model">
+    <h4 class="signup-heading">Welcome to MillionsClub</h4>
+    <h2 class="signup-heading">Admin Login</h2>
+
+    <form class="signup-form" action="" method="POST">
+      <div class="signup-input-div">
+        <i class="fa-regular fa-envelope signup-icon"></i>
+        <input
+          class="signup-input"
+          type="email"
+          name="email"
+          placeholder="Enter your email id"
+        />
+      </div>
+
+      <div class="signup-input-div">
+        <i class="fa-solid fa-lock signup-icon"></i>
+        <input
+          class="signup-input"
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <button class="signup-button" type="submit">Login</button>
+    </form>
+
+ 
+
+    <% if(typeof message!= 'undefined'){%>
+    <h6 style="color: rgb(249, 0, 0); margin: 30px 0 "><%= message %></h6>
+    <% } %>
+
+    <div class="navigate">
+      <a class="signup-navigate-link" href="/home">Home</a>
+      <a class="signup-navigate-link" href="/signup">Create a User account</a>
+    </div>
+  </div>
+</main>
+
+<%- include('../layout/footer') %>

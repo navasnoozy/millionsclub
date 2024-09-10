@@ -1,0 +1,105 @@
+<%- include('../layout/header') %>
+<main class="login-page-body">
+  <div class="login-model">
+    <h2 class="signup-heading">Edit user</h2>
+
+    <form class="signup-form" action="" method="POST">
+      <div class="signup-names">
+        <div class="signup-input-div">
+          <i class="fa-regular fa-user signup-icon"></i>
+       
+          <input
+            class="signup-input"
+            type="text"
+            name="name"
+            value="<%= user.name  %>"
+            required
+          />
+        </div>
+
+        <input
+        type="text"
+        name="id"
+        value="<%= user._id  %>"
+        hidden
+      />
+
+     
+      </div>
+
+      <div class="signup-input-div">
+        <i class="fa-solid fa-phone signup-icon"></i>
+        <input
+          class="signup-input"
+          type="tel"
+          name="phone"
+          value="<%= user.phone  %>"
+        />
+      </div>
+
+      <div class="signup-input-div">
+        <i class="fa-regular fa-envelope signup-icon"></i>
+        <input
+          class="signup-input"
+          type="email"
+          name="email"
+          value="<%= user.email%>"
+          required
+        />
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="d-flex flex-row align-items-center mb-4" >
+            <div data-mdb-input-init class="form-outline flex-fill mb-0">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="verify_phone"
+                  id="flexSwitchCheckDefault"
+                  <% if (user.phone_verified == 1) { %> checked <%} %>
+                />
+                <label
+                  class="form-check-label text-nowrap me-5"
+                  for="flexSwitchCheckDefault"
+                  >Verify phone</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="d-flex flex-row align-items-center mb-4">
+            <div data-mdb-input-init class="form-outline flex-fill mb-0">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="verify_email"
+                  id="flexSwitchCheckDefault"
+                  <% if (user.email_verified == 1) { %> checked <%} %>
+                />
+                <label
+                  class="form-check-label "
+                  for="flexSwitchCheckDefault"
+                  >Verify Email</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="signup-button" type="submit">Save</button>
+    </form>
+
+    <div class="navigate">
+      <a class="signup-navigate-link" href="/admin/customers">Back</a>
+      <a class="signup-navigate-link" href="/admin/addUser">Add new user</a>
+    </div>
+  </div>
+</main>
+
+
+<%- include('../layout/footer') %>

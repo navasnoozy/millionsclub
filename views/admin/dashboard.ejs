@@ -1,0 +1,552 @@
+<%- include ('../layout/header') %>
+
+<!-- dynamic dashboard -->
+
+<main id="wrapper" class="d-flex">
+  <!-- SIDEBAR -->
+  <nav id="sidebarMenu">
+    <div
+      class="sidebar-header d-flex justify-content-between aligh-item-center"
+    >
+      <h3>MillionsClub</h3>
+      <button type="button" id="closeSidebar" class="btn btn-light">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <ul class="list-unstyled components">
+      <li><a href="/admin/dashboard" data-page="dashboard">Dashboard</a></li>
+      <li><a href="/admin/catalog" data-page="catalog">Catalog</a></li>
+      <li><a href="/admin/customers" data-page="customers">Customers</a></li>
+      <li><a href="/admin/orders" data-page="orders">Orders</a></li>
+      <li><a href="admin/settings" data-page="settings">Settings</a></li>
+    </ul>
+  </nav>
+
+  <div class="container" id="container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light shadow-sm">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" id="hamburger">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-flex">
+          <button class="btn btn-light" type="button">
+            <i class="bi bi-bell"></i>
+          </button>
+
+          <div class="dropdown">
+            <button
+              class="btn btn-light dropdown-toggle"
+              type="button"
+              id="profileDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-person"></i>
+            </button>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-expanded="profileDropdown"
+            >
+              <li>
+                <a class="dropdown-item" href="/admin/profile">Profile</a>
+              </li>
+              <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Dashboard content -->
+    <div class="container" id="dashboardContent">
+      <h2 class="my-5">Dashboard Overview</h2>
+
+      <!-- first row -->
+      <div class="row">
+        <div class="col m-2 m-sm-0">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <h5 class="card-title">Today Orders</h5>
+              <p class="card-text">$200</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col m-2 m-sm-0">
+          <div class="card bg-warning text-white">
+            <div class="card-body">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <h5 class="card-title">Yesterday Orders</h5>
+              <p class="card-text">$200</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col m-2 m-sm-0">
+          <div class="card bg-primary text-white">
+            <div class="card-body">
+              <i class="fa-solid fa-calendar-days"></i>
+              <h5 class="card-title">This month</h5>
+              <p class="card-text">$200</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col m-2 m-sm-0">
+          <div class="card bg-info text-white">
+            <div class="card-body">
+              <i class="fa-regular fa-calendar"></i>
+              <h5 class="card-title">This year</h5>
+              <p class="card-text">$200</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col m-2 m-md-0">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <i class="fa-solid fa-wallet"></i>
+              <h5 class="card-title">Total sales</h5>
+              <p class="card-text">$200</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- second row -->
+
+      <div class="row g-3 my-3">
+        <div class="col-md-3">
+          <div class="card custom-card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-primary bg-opacity-25 custom-icon">
+                <i class="fas fa-shopping-cart text-warning"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">Total Orders</h5>
+                <p class="card-text">111</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-primary bg-opacity-25 custom-icon">
+                <i class="fas fa-sync-alt text-primary"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">
+                  Orders Pending
+                </h5>
+                <p class="card-text">
+                  32 <span class="pending-amount">(15899.26)</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-info bg-opacity-25 custom-icon">
+                <i class="fas fa-truck text-info"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">
+                  Orders Processing
+                </h5>
+                <p class="card-text">11</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-success bg-opacity-25 custom-icon">
+                <i class="fas fa-check text-success"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">
+                  Orders Delivered
+                </h5>
+                <p class="card-text">60</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent orders table -->
+      <h4 class="my-5">Recent Orders</h4>
+
+      <div class="table-responsive-sm">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">INVOICE NUMBER</th>
+              <th scope="col">QUANTITY</th>
+              <th scope="col">ORDER TIME</th>
+              <th scope="col">CUSTOMER NAME</th>
+              <th scope="col">AMOUNT</th>
+              <th scope="col">METHOD</th>
+              <th scope="col">STATUS</th>
+              <th scope="col">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>111</td>
+              <td>3</td>
+              <td>10:28AM 31/12/24</td>
+              <td>Navas</td>
+              <td>$299</td>
+              <td>Google pay</td>
+              <td>Processing</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger">Cancel</button>
+                  <button
+                    type="button"
+                    class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    area-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Change status</a>
+                    <a class="dropdown-item" href="">Return</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- catalog tab content -->
+    <div class="container" id="productsContent">
+      <h4 class="my-5">Products Catalog</h4>
+
+      <form action="/admin/customers" method="GET">
+        <div class="row">
+          <div class="col-6">
+            <div class="input-group mb-3">
+              <input
+                name="search"
+                type="text"
+                class="form-control"
+                placeholder="Search..."
+                aria-label="Search"
+               <%  if(typeof searchQuery!== 'undefined'){ %>
+                  value="<%= searchQuery %>"
+               <% } %>
+          
+        
+              />
+              <button class="btn btn-outline-secondary" type="submit">
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="col-4 text-end">
+            <a href="/admin/add-product" class="btn btn-primary">Add Product</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" class="align-middle">DATE MODIFIED</th>
+              <th scope="col" class="align-middle">BARCODE</th>
+              <th scope="col" class="align-middle">IMAGES</th>
+              <th scope="col" class="align-middle">ITEM NAME</th>
+
+              <th scope="col" class="align-middle">COLOR</th>
+              <th scope="col" class="align-middle">SIZE</th>
+              <th scope="col" class="align-middle">STOCK</th>
+              <th scope="col" class="align-middle">COST</th>
+              <th scope="col" class="align-middle">PRICE</th>
+
+              <th scope="col" class="align-middle">DISCOUNT</th>
+              <th scope="col" class="align-middle">MARGIN</th>
+              <th scope="col" class="align-middle">CATAGORY</th>
+              <th scope="col" class="align-middle">STATUS</th>
+              <th scope="col" class="align-middle">ACTION</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-middle">23/05/2024</td>
+              <td class="align-middle">3435345</td>
+              <td class="align-middle">PHOTO</td>
+              <td class="align-middle">T SHIRT</td>
+              <td class="align-middle">BLACK</td>
+              <td class="align-middle">M (SMALL)</td>
+              <td class="align-middle">7</td>
+              <td class="align-middle">200</td>
+              <td class="align-middle">500</td>
+              <td class="align-middle">0</td>
+              <td class="align-middle">300</td>
+              <td class="align-middle">SHIRT</td>
+              <td class="align-middle">ACTIVE</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger">Cancel</button>
+                  <button
+                    type="button"
+                    class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    area-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Change status</a>
+                    <a class="dropdown-item" href="">Return</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- customers tab content -->
+    <div class="container" id="customersContent">
+      <h4 class="my-5">Customers</h4>
+
+      <form action="/admin/customers" method="GET">
+        <div class="row">
+          <div class="col-8">
+            <div class="input-group mb-3">
+              <input
+                name="search"
+                type="text"
+                class="form-control"
+                placeholder="Search..."
+                aria-label="Search"
+               <%  if(typeof searchQuery!== 'undefined'){ %>
+                  value="<%= searchQuery %>"
+               <% } %>
+          
+        
+              />
+              <button class="btn btn-outline-secondary" type="submit">
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="col-4 text-end">
+            <a href="/admin/add-user" class="btn btn-primary">Add user</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="table-responsive-sm">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th>JOINING DATE</th>
+              <th scope="col">NAME</th>
+              <th scope="col">EMAIL</th>
+              <th scope="col">PHONE</th>
+              <th scope="col">STATUS</th>
+              <th scope="col">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (users.length >0) {%> <% users.forEach((user)=> {%>
+
+            <tr>
+              <td>0000</td>
+              <td>
+                <%= new Date(user.createdAt).toISOString().split('T')[0] %>
+              </td>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= user.phone %></td>
+              <td>Active user (NA)</td>
+
+              <td>
+                <a
+                  href="/admin/edit-user?Id=<%= user._id %>"
+                  class="btn btn-sm mb-1 btn-outline-secondary me-1"
+                  title="Edit"
+                >
+                  <i class="fa-regular fa-pen-to-square"></i>
+                </a>
+
+                <!-- block button -->
+                <button
+                  data-id="<%= user._id %>"
+                  class="block-btn btn btn-sm mb-1 btn-outline-danger bg-<%=user.is_blocked==1?'warning':''%> me-1"
+                  title="Block"
+                >
+                  <i class="fa-solid fa-ban"></i>
+                </button>
+
+                <!-- delete button -->
+                <button
+                  data-id="<%= user._id %>"
+                  class="delete-btn btn btn-sm mb-1 btn-outline-danger"
+                  title="Delete"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <% }) %> <% }else{ %>
+            <tr>
+              <td colspan="6" class="text-center">No user found</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Order tab content -->
+
+    <div class="container" id="ordersContent">
+      <div class="row g-3 my-3">
+        <div class="col-md-3">
+          <div class="card custom-card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-primary bg-opacity-25 custom-icon">
+                <i class="fas fa-shopping-cart text-warning"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">Total Orders</h5>
+                <p class="card-text">111</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-primary bg-opacity-25 custom-icon">
+                <i class="fas fa-sync-alt text-primary"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">
+                  Orders Pending
+                </h5>
+                <p class="card-text">
+                  32 <span class="pending-amount">(15899.26)</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-info bg-opacity-25 custom-icon">
+                <i class="fas fa-truck text-info"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">
+                  Orders Processing
+                </h5>
+                <p class="card-text">11</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div class="icon-bg bg-success bg-opacity-25 custom-icon">
+                <i class="fas fa-check text-success"></i>
+              </div>
+              <div>
+                <h5 class="card-title custom-card-title pt-3">
+                  Orders Delivered
+                </h5>
+                <p class="card-text">60</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="my-5">Recent Orders</h4>
+
+      <div class="table-responsive-sm">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">INVOICE NUMBER</th>
+              <th scope="col">QUANTITY</th>
+              <th scope="col">ORDER TIME</th>
+              <th scope="col">CUSTOMER NAME</th>
+              <th scope="col">AMOUNT</th>
+              <th scope="col">METHOD</th>
+              <th scope="col">STATUS</th>
+              <th scope="col">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>111</td>
+              <td>3</td>
+              <td>10:28AM 31/12/24</td>
+              <td>Navas</td>
+              <td>$299</td>
+              <td>Google pay</td>
+              <td>Processing</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger">Cancel</button>
+                  <button
+                    type="button"
+                    class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    area-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Change status</a>
+                    <a class="dropdown-item" href="">Return</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ('../layout/footer') %>
