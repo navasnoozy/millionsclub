@@ -1,44 +1,34 @@
-// imageHandler.js file
-
-const path = require("path");
-const fs = require("fs");
-
-const processImages = (req, res, next) => {
-  if (!req.body.croppedImages || req.body.croppedImages === "[]") {
-    req.flash("error", "No cropped images provided");
-    return res.redirect("/admin/add-product");
-  }
-
+const deleteProduct = async (req, res) => {
   try {
+    console.log('delete product working');
+    
+    const id = req.params.id;
 
-
-    const croppedImages = JSON.parse(req.body.croppedImages);
-
-    if (!Array.isArray(croppedImages) || croppedImages.length === 0) {
-      console.log("croppedImages is not an array or is empty");
-      req.flash("error", "Invalid image data provided");
-      return res.redirect("/admin/add-product");
+    const deletedProduct = await products.findByIdAndDelete(id);
+    if (deletedProduct) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(404).json({ success: false, message: 'Product not found' });
     }
-
-    const savedImages = [];
-
-    croppedImages.forEach((base64Image, index) => {
-      // Remove the data:image/png;base64, part
-      const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
-      const buffer = Buffer.from(base64Data, "base64");
-      const imageName = `product-${Date.now()}-${index}.png`;
-      const imagePath = path.join(__dirname, "../public/uploads/", imageName);
-      fs.writeFileSync(imagePath, buffer);
-      savedImages.push(`/uploads/${imageName}`);
-    });
-
-    req.savedImages = savedImages;
-    next();
   } catch (error) {
-    console.error("Error processing images:", error);
-    req.flash("error", "An error occurred while processing the images.");
-    res.redirect("/admin/add-product");
+    console.error('Error deleting product:', error);
+    res.status(500).json({ success: false, message: 'An error occurred while deleting the product' });
   }
 };
 
-module.exports = { processImages };
+
+await User.findByIdAndUpdate(
+  { _id: id },
+  {
+    $set: {
+      name: name,
+      phone: phone,
+      email: email,
+      phone_verified: verify_phone ? 1 : 0,
+      email_verified: verify_email ? 1 : 0,
+      updatedAt: updatedAt,
+    },
+  }
+);
+req.flash("success", "Updation successfull");
+res.redirect("/admin/customers");

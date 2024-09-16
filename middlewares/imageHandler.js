@@ -2,8 +2,6 @@
 
 const path = require("path");
 const fs = require("fs");
-const multer = require('multer');
-const upload = multer();
 
 const processImages = (req, res, next) => {
   if (!req.body.croppedImages || req.body.croppedImages === "[]") {

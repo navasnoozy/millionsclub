@@ -236,26 +236,30 @@
       </div>
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- catalog tab content -->
     <div class="container" id="productsContent">
       <h4 class="my-5">Products Catalog</h4>
 
-      <form action="/admin/customers" method="GET">
+      <form action="/admin/catalog" method="GET">
         <div class="row">
           <div class="col-6">
             <div class="input-group mb-3">
-              <input
-                name="search"
-                type="text"
-                class="form-control"
-                placeholder="Search..."
-                aria-label="Search"
-               <%  if(typeof searchQuery!== 'undefined'){ %>
-                  value="<%= searchQuery %>"
-               <% } %>
-          
-        
-              />
+              <input name="search" type="text" class="form-control"
+              placeholder="Search..." aria-label="Search" <% if(typeof
+              searchQuery !== 'undefined'){ %> value="<%= searchQuery %>" <% }
+              %> />
               <button class="btn btn-outline-secondary" type="submit">
                 Search
               </button>
@@ -271,65 +275,109 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col" class="align-middle">DATE MODIFIED</th>
-              <th scope="col" class="align-middle">BARCODE</th>
-              <th scope="col" class="align-middle">IMAGES</th>
-              <th scope="col" class="align-middle">ITEM NAME</th>
-
-              <th scope="col" class="align-middle">COLOR</th>
-              <th scope="col" class="align-middle">SIZE</th>
-              <th scope="col" class="align-middle">STOCK</th>
-              <th scope="col" class="align-middle">COST</th>
-              <th scope="col" class="align-middle">PRICE</th>
-
-              <th scope="col" class="align-middle">DISCOUNT</th>
-              <th scope="col" class="align-middle">MARGIN</th>
-              <th scope="col" class="align-middle">CATAGORY</th>
-              <th scope="col" class="align-middle">STATUS</th>
+              <th>Barcode</th>
+              <th>Images</th>
+              <th>Product Name</th>
+              <th>SKU</th>
+              <th>Category</th>
+              <th>Sub Category</th>
+              <th>Brand</th>
+              <th>Cost</th>
+              <th>Discount Percentage %</th>
+              <th>Discount Valid Until</th>
+              <th>Stock (Size)</th>
+              <th>Stock (Color)</th>
+              <th>Stock (Quantity)</th>
+              <th>Regular Price</th>
+              <th>Sale Price</th>
+              <th>Created Date</th>
+              <th>Updated</th>
               <th scope="col" class="align-middle">ACTION</th>
-
             </tr>
           </thead>
           <tbody>
+            <% if (typeof product !== 'undefined' && product.length > 0) { %> <%
+            product.forEach((item) => { %>
             <tr>
-              <td class="align-middle">23/05/2024</td>
-              <td class="align-middle">3435345</td>
-              <td class="align-middle">PHOTO</td>
-              <td class="align-middle">T SHIRT</td>
-              <td class="align-middle">BLACK</td>
-              <td class="align-middle">M (SMALL)</td>
-              <td class="align-middle">7</td>
-              <td class="align-middle">200</td>
-              <td class="align-middle">500</td>
-              <td class="align-middle">0</td>
-              <td class="align-middle">300</td>
-              <td class="align-middle">SHIRT</td>
-              <td class="align-middle">ACTIVE</td>
-              <td>
+              <td class="align-middle"><%= item.barcode %></td>
+
+              <td class="align-middle">
+                <% if (typeof item.photos !== 'undefined' && item.photos.length
+                > 0) { %>
+                <div class="image-grid">
+                  <% item.photos.forEach((photo) => { %>
+                  <div
+                    class="image-wrapper border border-dark-subtle border-2 p-1"
+                  >
+                    <img class="image-item" src="<%= photo %>" alt="image" />
+                  </div>
+                  <% }) %>
+                </div>
+                <% } else { %> No images available <% } %>
+              </td>
+
+              <td class="align-middle"><%= item.productName %></td>
+              <td class="align-middle"><%= item.SKU %></td>
+              <td class="align-middle"><%= item.category %></td>
+              <td class="align-middle"><%= item.subCategory %></td>
+              <td class="align-middle"><%= item.brand %></td>
+              <td class="align-middle"><%= item.cost %></td>
+              <td class="align-middle">
+                <%= item.discount.percentage  || 'N/A' %>
+              </td>
+              <td class="align-middle">
+                <%= item.discount.valid_until || 'N/A' %>
+              </td>
+              <td class="align-middle"><% item.stock.forEach((stock)=>{%>
+                <%= stock.size%><%})%></td>
+              <td class="align-middle"><% item.stock.forEach((stock)=>{%>
+                <%= stock.color%><%})%></td>
+              <td class="align-middle"><% item.stock.forEach((stock)=>{%>
+                <%= stock.quantity%><%})%></td>
+              <td class="align-middle"><% item.stock.forEach((stock)=>{%>
+                <%= stock.price.regularPrice%><%})%></td>
+              <td class="align-middle">1399</td>
+              <td class="align-middle"><%= item.createdDate %></td>
+              <td class="align-middle"><%= item.updated %></td>
+              <td class="align-middle">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-danger">Cancel</button>
+                  <a class="btn btn-danger "data-id="<%= item._id%>"  href="/admin/edit-product?Id=<%= item._id%>">Edit</a>
                   <button
                     type="button"
                     class="btn btn-danger dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown"
-                    area-haspopup="true"
+                    aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="">Change status</a>
-                    <a class="dropdown-item" href="">Return</a>
+                    <a class="dropdown-item" href="#">Change status</a>
+                    <button class="dropdown-item delete-btn" data-id="<%= item._id%>">Delete</button>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Separated link</a>
                   </div>
                 </div>
               </td>
             </tr>
+            <% }) %> <% } else { %>
+            <tr>
+              <td colspan="18">No products available</td>
+            </tr>
+            <% } %>
           </tbody>
         </table>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
 
     <!-- customers tab content -->
     <div class="container" id="customersContent">
@@ -339,17 +387,9 @@
         <div class="row">
           <div class="col-8">
             <div class="input-group mb-3">
-              <input
-                name="search"
-                type="text"
-                class="form-control"
-                placeholder="Search..."
-                aria-label="Search"
-               <%  if(typeof searchQuery!== 'undefined'){ %>
-                  value="<%= searchQuery %>"
-               <% } %>
-          
-        
+              <input name="search" type="text" class="form-control"
+              placeholder="Search..." aria-label="Search" <% if(typeof
+              searchQuery!== 'undefined'){ %> value="<%= searchQuery %>" <% } %>
               />
               <button class="btn btn-outline-secondary" type="submit">
                 Search
@@ -376,7 +416,8 @@
             </tr>
           </thead>
           <tbody>
-            <% if (users.length >0) {%> <% users.forEach((user)=> {%>
+            <% if (typeof users !== 'undefined' && users.length >0) {%> <%
+            users.forEach((user)=> {%>
 
             <tr>
               <td>0000</td>
@@ -550,3 +591,4 @@
 </main>
 
 <%- include ('../layout/footer') %>
+

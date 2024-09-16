@@ -1,7 +1,7 @@
 //adminController.js
 
 const User = require("../models/userModel");
-const products = require('../models/productsModel')
+const products = require("../models/productsModel");
 const bcryptjs = require("bcryptjs");
 const randomString = require("randomstring");
 const nodemailer = require("nodemailer");
@@ -9,13 +9,11 @@ const moment = require("moment");
 const sendMail = require("../auth/sendMail");
 const SendmailTransport = require("nodemailer/lib/sendmail-transport");
 
-const fs = require ('fs');
-const path = require ('path');
-
-
-
-
-
+const fs = require("fs");
+const path = require("path");
+const { query } = require("express");
+const { AwsInstance } = require("twilio/lib/rest/accounts/v1/credential/aws");
+const { title, disconnect } = require("process");
 
 const securePassword = async (password) => {
   try {
@@ -166,58 +164,68 @@ const addUser = async (req, res) => {
   }
 };
 
+
+
 const blockUser = async (req, res) => {
   try {
-    const userId = req.query.Id;
+    console.log("block/unblock user working");
 
-    const userData = await User.findById({ _id: userId });
+    const userId = req.params.id;
+
+    const userData = await User.findById(userId);
 
     if (userData) {
       userData.is_blocked = userData.is_blocked === 0 ? 1 : 0;
       await userData.save();
 
-      if (userData.is_blocked === 1) {
-        res.status(200).send({
-          success: true,
-          message: `${userData.name} has been blocked ✅`,
-          is_blocked: userData.is_blocked,
-        });
-      } else {
-        res.status(200).send({
-          success: true,
-          message: `${userData.name} has been unblocked`,
-          is_blocked: userData.is_blocked,
-        });
-      }
-      // return res.redirect('/admin/customers');
+      const action = userData.is_blocked === 1 ? "blocked" : "unblocked";
+
+      res.status(200).json({
+        success: true,
+        message: `${userData.name} has been ${action}`,
+        is_blocked: userData.is_blocked,
+      });
     } else {
-      req.status(500).send({
+      res.status(404).json({
         success: false,
         message: "User not found",
       });
-      // return res.redirect('/admin/customers');
     }
   } catch (error) {
-    console.error(error.message);
-    req.flash("error", "An error occured");
-    res.redirect("/admin/customers");
+    console.error("Error blocking/unblocking user:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while blocking/unblocking the user",
+    });
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
-    const id = req.query.Id;
+    const id = req.params.id;
 
-    const deleteUser = await User.findOneAndDelete({ _id: id });
-    res.status(200).send({ success: true });
+    const deleteUser = await User.findByIdAndDelete(id);
+    if (deleteUser) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "An error occured while deleting the user",
+      });
+    }
   } catch (error) {
-    res.status(500).send({ success: false });
+    console.error("Error occured while deleting user", error.message);
+    res.status(500).json({
+      success: false,
+      message: "An error occured while deleting the user",
+    });
   }
 };
 
+// display users or search users
 const searchUser = async (req, res) => {
   try {
-    console.log("search funciton called");
+    console.log(" users search funciton called");
 
     const searchQuery = req.query.search;
     let users;
@@ -266,20 +274,17 @@ const logout = async (req, res) => {
   }
 };
 
-
-const loadAddProduct = async (req, res)=>{
+const loadAddProduct = async (req, res) => {
   try {
-    res.render('addProduct',{title:'Add Product | Millions Club'});
-
+    res.render("addProduct", { title: "Add Product | Millions Club" });
   } catch (error) {
     console.error(error.message);
   }
 };
 
-
 const addProduct = async (req, res) => {
-  console.log('add product is working');
-  
+  console.log("add product is working");
+
   try {
     const productData = {
       barcode: req.body.barcode,
@@ -293,32 +298,153 @@ const addProduct = async (req, res) => {
         percentage: req.body.discountPercentage,
         valid_until: req.body.validUntil,
       },
-      stock: [{
-        size: req.body.stockSize,
-        color: req.body.stockColor,
-        quantity: req.body.stockQuantity,
-        price: {
-          regularPrice: req.body.regularPrice,
-          salePrice: req.body.salePrice,
+      stock: [
+        {
+          size: req.body.stockSize,
+          color: req.body.stockColor,
+          quantity: req.body.stockQuantity,
+          price: {
+            regularPrice: req.body.regularPrice,
+            salePrice: req.body.salePrice,
+          },
         },
-      }],
+      ],
       photos: req.savedImages,
     };
 
     const newProduct = new products(productData);
     await newProduct.save();
 
-    req.flash('success', 'Product added successfully');
+    req.flash("success", "Product added successfully");
     res.redirect("/admin/catalog");
   } catch (error) {
     console.error("Error while adding product:", error.message);
-    req.flash('error', 'An error occurred while adding the product.');
-    res.redirect('/admin/add-product');
+    req.flash("error", "An error occurred while adding the product.");
+    res.redirect("/admin/add-product");
+  }
+};
+
+// display product or search product
+const searchProduct = async (req, res) => {
+  try {
+    console.log("display display product is working");
+
+    const searchQuery = req.query.search;
+    let listProduct;
+
+    if (searchQuery) {
+      const query = {
+        $or: [{ productName: { $regex: searchQuery, $options: "i" } }],
+      };
+
+      if (!isNaN(searchQuery)) {
+        query.$or.push({ barcode: parseInt(searchQuery) });
+      }
+
+      listProduct = await products.find(query);
+    } else {
+      listProduct = await products.find({});
+    }
+
+    res.render("dashboard", {
+      product: listProduct,
+      searchQuery: searchQuery,
+      title: "Catalog | Admin",
+    });
+  } catch (error) {
+    console.error("Error while search Product......." + error.message);
+    req.flash("error", "An error occured while searching");
+    res.redirect("admin/catalog");
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    console.log("delete product working");
+
+    const id = req.params.id;
+
+    const deletedProduct = await products.findByIdAndDelete(id);
+    if (deletedProduct) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(404).json({ success: false, message: "Product not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while deleting the product",
+    });
+  }
+};
+
+const editProduct = async (req, res) => {
+  try {
+    const id = req.query.Id;
+
+    const productData = await products.findById(id);
+
+    res.render("editProduct", {
+      product: productData,
+      title: "Edit Product | MillionsClub",
+    });
+  } catch (error) {
+    console.error("An error occured while updating product", error.message);
+    req.flash("error", "An error occured while updating product");
   }
 };
 
 
 
+const updateProduct = async (req,res)=>{
+  try {
+
+    const id = req.query.Id;
+    const updated =   moment().format("YYYY-MM-DD HH:mm:ss");
+
+    const productData = {
+      barcode: req.body.barcode,
+      SKU: req.body.sku,
+      productName: req.body.productName,
+      category: req.body.category,
+      subCategory: req.body.subCategory,
+      brand: req.body.brand,
+      cost: req.body.cost,
+      discount:{
+        percentage:req.body.discountPercentage,
+        valid_until: req.body.validUntil,
+      },
+      stock:[
+        {
+          size: req.body.stockSize,
+          color: req.body.stockColor,
+          quantity: req.body.stockQuantity,
+          price:{
+            regularPrice: req.body.regularPrice,
+            salePrice: req.body.salePrice,
+          }
+        }
+      ],
+      updated:updated,
+
+    }
+
+
+    await products.findByIdAndUpdate(
+      id,
+      {$set:productData}
+      
+    )
+
+    req.flash('success','Product upation successfull')
+    res.redirect('/admin/catalog')
+
+  } catch (error) {
+    console.error('error occured while updating product',error.message);
+    req.flash('error','An error occured while updating the product')
+  }
+};
 
 module.exports = {
   loadLoginPage,
@@ -333,6 +459,9 @@ module.exports = {
   searchUser,
   logout,
   loadAddProduct,
-  addProduct
-
+  addProduct,
+  searchProduct,
+  deleteProduct,
+  editProduct,
+  updateProduct,
 };

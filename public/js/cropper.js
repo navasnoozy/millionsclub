@@ -39,6 +39,7 @@ document
       );
       previewBox.style.backgroundImage = `url(${croppedCanvas.toDataURL()})`;
 
+
       croppedImages.push(croppedCanvas.toDataURL());
       document.getElementById("croppedImages").value =
         JSON.stringify(croppedImages);
@@ -48,6 +49,9 @@ document
         document.getElementById("productPhoto").disabled = true;
         this.disabled = true;
       }
+
+
+
 
       // Reset for next photo
       cropper.destroy();

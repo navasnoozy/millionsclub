@@ -69,6 +69,16 @@ const productsSchema = mongoose.Schema({
     ],
     photos: {
       type: [String],  // Assuming you want to store paths of multiple photos
+    },
+
+    createdDate:{
+      type: String,
+      default: ()=> moment().format('YYYY-MM-DD HH:mm:ss')
+    },
+
+    updated:{
+      type:String,
+      default:()=> moment().format('YYYY-MM-DD HH:mm:ss')
     }
   });
   

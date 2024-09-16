@@ -155,26 +155,26 @@ closeSidebarButton.addEventListener('click',function(){
 
 
 
-// Handle delete and block actions for customers
+// Handle delete and block actions for customers and products
 document.addEventListener('click', function(e) {
-  // Check if the clicked element is a delete or block button
   if (e.target.closest('.delete-btn') || e.target.closest('.block-btn')) {
     e.preventDefault();
     
     const button = e.target.closest('.delete-btn') || e.target.closest('.block-btn');
-    const userId = button.getAttribute('data-id');
+    const id = button.getAttribute('data-id');
     const isDelete = button.classList.contains('delete-btn');
-    const isBlocked = button.classList.contains('bg-warning'); // Assuming blocked buttons have 'bg-warning' class
+    const isBlocked = button.classList.contains('bg-warning');
+    const isProduct = button.closest('#productsContent') !== null;
     
-    // Set up variables based on action type
+    const itemType = isProduct ? 'product' : 'user';
     const action = isDelete ? 'delete' : (isBlocked ? 'unblock' : 'block');
     const title = isDelete ? 'Delete' : (isBlocked ? 'Unblock' : 'Block');
-    const text = isDelete ? "You won't be able to revert this!" : `Are you sure you want to ${action} this user?`;
+    const text = isDelete ? `You won't be able to revert this!` : `Are you sure you want to ${action} this ${itemType}?`;
     const icon = isDelete ? 'warning' : 'question';
     const confirmButtonText = `Yes, ${action} it!`;
 
     Swal.fire({
-      title: `${title} this user?`,
+      title: `${title} this ${itemType}?`,
       text: text,
       icon: icon,
       showCancelButton: true,
@@ -183,9 +183,14 @@ document.addEventListener('click', function(e) {
       confirmButtonText: confirmButtonText
     }).then((result) => {
       if (result.isConfirmed) {
-        // Determine the appropriate URL and method based on the action
-        const url = isDelete ? `/admin/delete-user?Id=${userId}` : `/admin/block-user?Id=${userId}`;
-        const method = isDelete ? 'DELETE' : 'POST'; // Assuming block/unblock uses POST
+        let url, method;
+        if (isProduct) {
+          url = `/admin/delete-product/${id}`;
+          method = 'DELETE';
+        } else {
+          url = isDelete ? `/admin/delete-user/${id}` : `/admin/block-user/${id}`;
+          method = isDelete ? 'DELETE' : 'POST';
+        }
 
         fetch(url, { method: method })
           .then(response => response.json())
@@ -193,13 +198,13 @@ document.addEventListener('click', function(e) {
             if (data.success) {
               Swal.fire({
                 title: "Success!",
-                text: `User has been ${action}ed.`,
+                text: `${itemType} has been ${action}ed.`,
                 icon: "success"
               }).then(() => {
                 window.location.reload();
               });
             } else {
-              Swal.fire("Error", `Failed to ${action} user.`, "error");
+              Swal.fire("Error", `Failed to ${action} ${itemType}.`, "error");
             }
           })
           .catch(error => {
@@ -210,7 +215,6 @@ document.addEventListener('click', function(e) {
     });
   }
 });
-
 
 
   
