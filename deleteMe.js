@@ -1,34 +1,39 @@
-const deleteProduct = async (req, res) => {
+const loadDashboard = async (req, res) => {
   try {
-    console.log('delete product working');
+    // Fetch orders statistics
+    const totalOrders = await Order.countDocuments();
     
-    const id = req.params.id;
+    const pendingOrders = await Order.aggregate([
+      {
+        $match: { status: "Pending" }
+      },
+      {
+        $group: {
+          _id: null,
+          orderCount: { $sum: 1 },
+          totalAmount: { $sum: "$totalPrice" }
+        }
+      }
+    ]);
 
-    const deletedProduct = await products.findByIdAndDelete(id);
-    if (deletedProduct) {
-      res.status(200).json({ success: true });
-    } else {
-      res.status(404).json({ success: false, message: 'Product not found' });
-    }
+    const processingOrders = await Order.countDocuments({ status: "Processing" });
+    const deliveredOrders = await Order.countDocuments({ status: "Delivered" });
+    
+    const recentOrders = await Order.find()
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .select("invoiceNumber quantity createdAt customerName totalPrice paymentMethod status");
+
+    res.render("dashboard", {
+      title: "Dashboard | Admin",
+      totalOrders,
+      pendingOrders: pendingOrders[0] || { orderCount: 0, totalAmount: 0 },
+      processingOrders,
+      deliveredOrders,
+      recentOrders,
+      // Existing data fetching logic (todayOrders, yesterdayOrders, etc.)
+    });
   } catch (error) {
-    console.error('Error deleting product:', error);
-    res.status(500).json({ success: false, message: 'An error occurred while deleting the product' });
+    console.error(error.message);
   }
 };
-
-
-await User.findByIdAndUpdate(
-  { _id: id },
-  {
-    $set: {
-      name: name,
-      phone: phone,
-      email: email,
-      phone_verified: verify_phone ? 1 : 0,
-      email_verified: verify_email ? 1 : 0,
-      updatedAt: updatedAt,
-    },
-  }
-);
-req.flash("success", "Updation successfull");
-res.redirect("/admin/customers");

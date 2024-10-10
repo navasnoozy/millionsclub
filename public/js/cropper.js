@@ -1,13 +1,16 @@
 
 // cropper.js file located public/js/cropper.js
+document.addEventListener("DOMContentLoaded", function() {
 
-let cropper;
+
+  let cropper;
 let croppedImages = [];
 let currentPreviewBox = 1;
 
-document
-  .getElementById("productPhoto")
-  .addEventListener("change", function (event) {
+ const productPhoto =document.getElementById("productPhoto");
+
+if(productPhoto){
+  productPhoto.addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -28,10 +31,14 @@ document
       reader.readAsDataURL(file);
     }
   });
+}
 
-document
-  .getElementById("cropButton")
-  .addEventListener("click", function () {
+
+
+const cropButton = document.getElementById("cropButton");
+
+if(cropButton){
+  cropButton.addEventListener("click", function () {
     if (cropper && currentPreviewBox <= 4) {
       const croppedCanvas = cropper.getCroppedCanvas();
       const previewBox = document.getElementById(
@@ -60,15 +67,25 @@ document
       this.style.display = "none";
     }
   });
+}
 
-document
-  .getElementById("productForm")
-  .addEventListener("submit", function (event) {
+
+
+const productForm = document.getElementById("productForm");
+
+if(productForm){
+  productForm.addEventListener("submit", function (event) {
     if (croppedImages.length === 0) {
       event.preventDefault();
       alert("Please upload at least one product photo.");
     }
   });
+}
+
+
+
+});
+
 
 
  

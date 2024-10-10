@@ -1,5 +1,7 @@
 // javascript
 
+
+
 // json status update for verify page
 document.addEventListener("DOMContentLoaded", function() {
 const otpSection = document.getElementById("otp-section");
@@ -53,7 +55,7 @@ function startOtpTimer() {
   }, 1000);
 }
 
-function udpateTimerDisplay(timeLeft) {
+function udpateTimertlay(timeLeft) {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   otpTimer.textContent = `OTP expire at : ${minutes}:${seconds
@@ -149,9 +151,12 @@ if(toastElement){
 
 //sidebar close button
 const closeSidebarButton = document.getElementById('closeSidebar');
-closeSidebarButton.addEventListener('click',function(){
-  sidebarMenu.style.display = 'none';
-});
+if(closeSidebarButton){
+  closeSidebarButton.addEventListener('click',function(){
+    sidebarMenu.style.display = 'none';
+  });
+}
+
 
 
 
@@ -219,5 +224,6 @@ document.addEventListener('click', function(e) {
 
   
 });
+
 
 

@@ -1,9 +1,11 @@
+// productsModel.js file
+
 const moment = require ('moment');
 const mongoose = require ('mongoose');
 
 
 
-const productsSchema = mongoose.Schema({
+const productsSchema = new mongoose.Schema({
     barcode: {
       type: Number,
       required: true,
@@ -78,9 +80,27 @@ const productsSchema = mongoose.Schema({
 
     updated:{
       type:String,
-      default:()=> moment().format('YYYY-MM-DD HH:mm:ss')
+      default:'N/A',
     }
   });
+
+
+  const categoriesSchema = new mongoose.Schema({
+    category:{
+      type:String,
+      required:true,
+      unique:true,
+    },
+    subCategories:[{
+      type:String,
+    }]
+  })
   
-  module.exports = mongoose.model('products', productsSchema);
+  const products = mongoose.model('products',productsSchema);
+  const Categories = mongoose.model('Categories',categoriesSchema);
+
+  module.exports = {
+    products,
+    Categories,
+  };
   

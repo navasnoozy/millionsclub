@@ -1,0 +1,502 @@
+<!-- cart.ejs file: -->
+
+<%- include('../layout/header') %>
+
+<div
+  class="container-lg shadow-lg my-lg-5 bg-white rounded align-items-center justify-content-center"
+>
+  <!-- navbar -->
+  <nav class="navbar mb-3 navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/user-home">Millions Club</a>
+
+      <ul class="navbar-nav order-lg-last">
+        <li class="nav-item d-none d-lg-block">
+          <% if(cart && cart.userId) {%>
+          <a
+            class="nav-link"
+            href="/user-home/productPage/wishlist?Id=
+            <%= cart.userId %>"
+            ><i class="bi bi-heart"></i
+          ></a>
+          <% }else{%>
+          <a class="nav-link" href="/wishlist"><i class="bi bi-heart"></i></a>
+          <%} %>
+        </li>
+        <li class="nav-item d-none d-lg-block">
+          <% if ( cart && cart.totalQuantity ) { %>
+          <a class="nav-link" href="/cart">
+            <i class="bi bi-cart"></i>
+            <span class="badge bg-danger"><%= cart.totalQuantity %></span>
+          </a>
+          <% } else { %>
+          <a class="nav-link" href="/login"><i class="bi bi-cart"></i></a>
+          <% } %>
+        </li>
+        <li class="nav-item dropdown d-none d-lg-block">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-person"></i>
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <% if(user){%>
+            <li>
+              <a class="dropdown-item" href="/userProfile?Id=<%= user._id %>"
+                >Profile</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="logout">Logout</a></li>
+            <%}else{%>
+            <li><a class="dropdown-item" href="/login">Login</a></li>
+            <%} %>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <button
+            class="btn btn-outline-success d-lg-none"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="bi bi-search"></i>
+          </button>
+        </li>
+        <li class="nav-item d-lg-none">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="d-flex mx-auto my-2 my-lg-0">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button
+            class="btn btn-outline-success d-none d-lg-block"
+            type="submit"
+          >
+            Search
+          </button>
+        </form>
+
+        <ul class="navbar-nav d-lg-none">
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="bi bi-heart"></i> Favorites</a
+            >
+          </li>
+          <li class="nav-item">
+            <% if (cart && cart.totalQuantity ) { %>
+            <a class="nav-link" href="/cart">
+              <span class="badge bg-danger"><%= cart.totalQuantity %></span>
+              <i class="bi bi-cart"></i>
+              cart
+            </a>
+            <% } else { %>
+            <a class="nav-link" href="/cart"><i class="bi bi-cart"></i>Cart</a>
+            <% } %>
+          </li>
+
+          <% if(user){%>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/userProfile"
+              ><i class="bi bi-person"></i> Profile</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+
+          <%}else{%>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <%} %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- cart item and details -->
+  <div class="row m-2 border">
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <% if(cart && cart.products.length > 0) { %> <%
+          cart.products.forEach((cartItem) => { %>
+          <tr>
+            <td class="align-middle" style="width: 100px">
+              <div class="image-wrapper border border-dark-subtle rounded p-1">
+                <img
+                  class="img-fluid"
+                  src="<%= cartItem.productId.photos[0] %>"
+                  alt="<%= cartItem.productId.productName %>"
+                />
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="mb-1"><%= cartItem.productId.productName %></h5>
+                  <h6 class="text-danger mb-1">
+                    ₹<%= cartItem.price %>
+                    <span class="text-dark">X <%= cartItem.quantity %></span>
+                  </h6>
+                  <% if(cartItem.productId.stock[0].quantity <= 10) { %>
+                  <span class="badge bg-warning text-dark"
+                    >Only <%= cartItem.productId.stock[0].quantity %> left, buy
+                    hurry!</span
+                  >
+                  <% } else { %>
+                  <span class="badge bg-success">In Stock</span>
+                  <% } %>
+                </div>
+              </div>
+            </td>
+            <td class="align-middle">
+              <span class="badge p-3 bg-danger"
+                ><%= cartItem.productId.discount.percentage %>% off</span
+              >
+            </td>
+
+            <td class="align-middle">
+              <a type="button" class="btn text-dark btn-sm btn-outline-success"
+                >save for later</a
+              >
+              <a href="/cart/delete?Id<%= cartItem.productId._id %>" type="button" class="btn text-dark btn-sm btn-outline-success"
+                >delete</a
+              >
+            </td>
+          </tr>
+          <% }) %> <% } else { %>
+          <tr>
+            <td colspan="3">Add something to your cart</td>
+          </tr>
+          <% } %>
+          <tr>
+            <td colspan="4" class="text-end p-4 px-5 fw-bold">
+              <span>Total price : </span>
+              <span>
+                <% if(cart && cart.totalPrice) { %> ₹<%= cart.totalPrice %> <% }
+                else { %> ₹0 <% } %>
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="4" class="text-end p-4 px-5 fw-bold">
+
+              <% if(cart){%>
+                <button id="proceedtobuy" type="button" class="btn btn-danger">
+                  Proceed to Buy
+                </button>
+                <%}else{%>
+                  <a href="/user-home"  class="btn btn-danger">
+                    Continue Shopping
+                  </a>
+                  <%}%>
+            
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
+  <div class="row p-3 m-2 border">
+    <h4 class="mb-3">Delivery Address</h4>
+    <div id="deliveryAddress">
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fullName"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="mobileNumber" class="form-label">Mobile Number</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="mobileNumber"
+              placeholder="10-digit mobile number"
+              required
+            />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="pincode" class="form-label">Pincode</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pincode"
+              placeholder="6-digit pincode"
+              required
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="locality" class="form-label">Locality</label>
+            <input
+              type="text"
+              class="form-control"
+              id="locality"
+              placeholder="Enter your locality"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label"
+            >Address (Area and Street)</label
+          >
+          <textarea
+            class="form-control"
+            id="address"
+            rows="3"
+            placeholder="Enter your full address"
+            required
+          ></textarea>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="city" class="form-label">City/District/Town</label>
+            <input
+              type="text"
+              class="form-control"
+              id="city"
+              placeholder="Enter your city"
+              required
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="state" class="form-label">State</label>
+            <input
+              type="text"
+              class="form-control"
+              id="state"
+              placeholder="Enter your state"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Address Type</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="addressType"
+              id="homeAddress"
+              value="home"
+              checked
+            />
+            <label class="form-check-label" for="homeAddress"> Home </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="addressType"
+              id="workAddress"
+              value="work"
+            />
+            <label class="form-check-label" for="workAddress"> Work </label>
+          </div>
+        </div>
+        <button
+          id="proceedPaymentBtn"
+        
+          class="btn btn-danger w-100"
+        >
+          Proceed to Payment
+        </button>
+
+    </div>
+  </div>
+
+  <div class="row p-3 m-2 border" id="paymentSection" style="display: none">
+    <h4 class="mb-3">Payment Method</h4>
+    <form id="paymentForm">
+      <% if(cart){%>
+        <input type="hidden" id="cartId" value="<%= cart._id %>" />
+        <%} %>
+
+      <div class="mb-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="paymentMethod"
+            id="cashOnDelivery"
+            value="COD"
+            checked
+          />
+          <label class="form-check-label" for="cashOnDelivery">
+            Cash on Delivery
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="paymentMethod"
+            id="razorpay"
+            value="Razorpay"
+          />
+          <label class="form-check-label" for="razorpay">
+            Pay Online (Razorpay)
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-danger w-100 mt-3">
+        Place Order
+      </button>
+    </form>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- footer -->
+  <footer class="footer bg-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h6 class="text-dark">MILLIONZ CLUB</h6>
+          <p>
+            Pulamanthole<br />
+            kerala
+          </p>
+          <p>Call Us: 123-456-789</p>
+          <p>Email: contactinfo@millions.com</p>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-dark">QUICK MENU</h6>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Seller</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Clothes</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Accessories</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none"
+                >Return policy</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none"
+                >Refund policy</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-dark">INFORMATION</h6>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-dark text-decoration-none">About Us</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Brands</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none"
+                >Gift Vouchers</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Site Map</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Accessories</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-dark">MY ACCOUNT</h6>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-dark text-decoration-none">My Account</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none"
+                >Order History</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Wish List</a>
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none"
+                >Order Details</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-dark text-decoration-none">Wishlist</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <p>&copy; 2021 Millionz Club . All rights reserved. Made By NeOzy.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<%- include('../layout/footer') %>

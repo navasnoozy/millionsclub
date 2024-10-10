@@ -1,29 +1,56 @@
-<!-- Stock Section -->
-<h4>Stock Information</h4>
-<div class="row">
-  <!-- Size Dropdown -->
-  <div class="col-md-4 mb-3">
-    <label for="stockSize" class="form-label">Size</label>
+<main class="login-page-body">
+  <div class="login-model">
+    <div class="container">
+      <!-- breadcrumbs -->
+
+      <h2 class="text-center">Category Manager</h2>
+
+      <form method="POST" action="/admin/add-product">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Main Category</th>
+              <th scope="col">Sub Categories</th>
+            </tr>
+          </thead>
+        
+          <tbody>
+            <% if(typeof categories !== 'undefined'){ %>
+              <% categories.forEach((categoryItem) => { %>  <!-- Loop over each category -->
+                <tr>
+                  <td class="border">
+                    <select
+                      class="form-select"
+                      size="10"
+                      aria-label="size 3 select example"
+                    >
+                      <option class="p-1" value="<%= categoryItem.category %>"><%= categoryItem.category  %></option>
+                    </select>
+                  </td>
+                  <td>
+                    <table>
+                      <!-- Loop over subCategories of the current categoryItem -->
+                      <% categoryItem.subCategories.forEach((subCategory) => { %>
+                        <tr><td><%= subCategory %></td></tr>
+                      <% }) %>
+                    </table>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+        
+      </form>
+    </div>
 
 
 
 
-    
-    <select class="form-control" id="stockSize" name="stockSize">
-      <% const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXS'];
-         const sizeLabels = {
-           'XS': 'XS (Extra Small)',
-           'S': 'S (Small)',
-           'M': 'M (Medium)',
-           'L': 'L (Large)',
-           'XL': 'XL (Extra Large)',
-           'XXL': 'XXL (Double Extra Large)',
-           'XXXL': 'XXXL (Triple Extra Large)',
-           'XXS': 'XXS (Double Extra Small)'
-         };
-         sizes.forEach(size => { %>
-           <option value="<%= size %>" <%= product.stock[0].size === size ? 'selected' : '' %>>
-             <%= sizeLabels[size] %>
-           </option>
-      <% }); %>
-    </select>
+    <div class="navigate">
+      <a class="signup-navigate-link" href="/admin/catalog">Back</a>
+      <a class="signup-navigate-link" href="/admin/dashboard">Dashboard</a>
+    </div>
+  </div>
+</main>
+

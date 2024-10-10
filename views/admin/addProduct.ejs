@@ -4,7 +4,26 @@
 
 <main class="login-page-body">
   <div class="login-model">
-    <div class="container mt-5">
+    <div class="container ">
+
+
+       <!-- breadcrumbs -->
+     <nav aria-label="breadcrumb" class="my-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item"><a href="/admin/catalog">Catalogs</a></li>
+        <% if (breadcrumb && breadcrumb.length) { %>
+          <% breadcrumb.forEach((crumb, index) => { %>
+            <% if (index === breadcrumb.length - 1) { %>
+              <li class="breadcrumb-item active" aria-current="page"><%= crumb.name %></li>
+            <% } else { %>
+              <li class="breadcrumb-item"><a href="<%= crumb.url %>"><%= crumb.name %></a></li>
+            <% } %>
+          <% }); %>
+        <% } %>
+      </ol>
+    </nav>
+
       <!-- Centered Add Product Title -->
       <h2 class="text-center">Add Product</h2>
 
@@ -101,24 +120,29 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="category" class="form-label">Category</label>
-            <input
-              type="text"
-              class="form-control"
-              id="category"
-              name="category"
-              required
-            />
+            <select name="categoryId" class="form-select" id="categorySelect">
+              <% if (typeof categories !== 'undefined') { %>
+                <option >Select Category</option>
+                <% categories.forEach((category) => { %>
+                  <option value="<%= category._id %>"><%= category.category %></option>
+                <% }) %>
+              <% } %>
+            </select>
           </div>
+        
           <div class="col-md-6 mb-3">
             <label for="subCategory" class="form-label">Sub-Category</label>
-            <input
-              type="text"
-              class="form-control"
-              id="subCategory"
-              name="subCategory"
-            />
+            <select name="subCategory" class="form-select" id="subCategorySelect">
+              <option value="">Select a main category first</option>
+            </select>
           </div>
         </div>
+        
+        
+
+
+
+
 
         <!-- Brand -->
         <div class="mb-3">
@@ -237,6 +261,8 @@
     </div>
   </div>
 </main>
+
+
 
 <%- include('../layout/footer') %>
 

@@ -4,7 +4,27 @@
 
 <main class="login-page-body">
   <div class="login-model">
-    <div class="container mt-5">
+    <div class="container">
+
+
+       <!-- breadcrumbs -->
+     <nav aria-label="breadcrumb" class="my-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item"><a href="/admin/customers">Customers</a></li>
+        <% if (breadcrumb && breadcrumb.length) { %>
+          <% breadcrumb.forEach((crumb, index) => { %>
+            <% if (index === breadcrumb.length - 1) { %>
+              <li class="breadcrumb-item active" aria-current="page"><%= crumb.name %></li>
+            <% } else { %>
+              <li class="breadcrumb-item"><a href="<%= crumb.url %>"><%= crumb.name %></a></li>
+            <% } %>
+          <% }); %>
+        <% } %>
+      </ol>
+    </nav>
+
+
       <!-- Centered Add Product Title -->
       <h2 class="text-center">Update Product</h2>
 

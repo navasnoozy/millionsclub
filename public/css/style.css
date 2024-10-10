@@ -383,3 +383,58 @@ body {
   max-height: 100%;
   object-fit: cover; /* Ensures image scales properly */
 }
+
+
+
+@media (max-width: 991.98px) {
+  .navbar-nav {
+      flex-direction: row !important;
+  }
+  .navbar-nav .nav-item {
+      padding: 0.5rem;
+  }
+}
+
+
+
+
+/* user section */
+
+
+.home-main-banner{
+  background-color:pink;
+  }
+  
+  
+  .main-banner-product-image {
+    max-width: 100%;
+  
+  }
+  
+  .main-banner-small-1{
+    background-color:antiquewhite;
+  
+  
+  }
+  
+  .main-banner-small-2{
+    background-color:aqua;
+  
+  
+  }
+
+  .footer {
+    background-color: #ffffff; /* Changed to pure white */
+    padding: 2rem 0;
+}
+
+
+/* checkout section  */
+
+#deliveryAddress{
+    display: none;
+}
+
+#paymentSection{
+  display: none;
+}

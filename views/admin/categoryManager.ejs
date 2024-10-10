@@ -1,0 +1,64 @@
+<%- include('../layout/header') %>
+<main class="login-page-body">
+  <div class="login-model">
+
+     <!-- breadcrumbs -->
+   <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+      <% if (breadcrumb && breadcrumb.length) { %>
+        <% breadcrumb.forEach((crumb, index) => { %>
+          <% if (index === breadcrumb.length - 1) { %>
+            <li class="breadcrumb-item active" aria-current="page"><%= crumb.name %></li>
+          <% } else { %>
+            <li class="breadcrumb-item"><a href="<%= crumb.url %>"><%= crumb.name %></a></li>
+          <% } %>
+        <% }); %>
+      <% } %>
+    </ol>
+  </nav>
+
+
+    <div class="container">
+      <h2 class="text-center border-bottom pb-2 my-5">Category Manager</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="mb-3">Main Categories</h5>
+          <form action="" method="POST">
+          <ul id="mainCategoryList" class="list-group" data-categories='<%- JSON.stringify(categories) %>'>
+            <% if(typeof categories !== 'undefined'){ %>
+              <% categories.forEach((categoryItem, index) => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-index="<%= index %>">
+                  <%= categoryItem.category %>
+                  <a href="/admin/settings/category/remove?Id=<%= categoryItem._id %>" class="remove-category">
+                    <i class="fa-solid fa-xmark" style="color: #f50511;"></i>
+                  </a>
+                </li>
+              <% }) %>
+            <% } %>
+            <li class="list-group-item d-flex justify-content-between">
+              <input type="text" class="form-control new-subcategory" name="newCategory"  placeholder="Add new category">
+             
+            </li>
+            <button class="btn m-2 bg-primary text-white" type="submit">Add</button>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h5 class="mb-3">Sub Categories</h5>
+          <ul id="subCategoryList" class="list-group">
+            <!-- Sub categories will be dynamically populated here -->
+           
+          </ul>
+        </form>
+         
+        </div>
+      </div>
+    </div>
+    <div class="navigate">
+      <a class="signup-navigate-link" href="/admin/catalog">Back</a>
+      <a class="signup-navigate-link" href="/admin/dashboard">Dashboard</a>
+    </div>
+  </div>
+</main>
+<%- include('../layout/footer') %>         
+

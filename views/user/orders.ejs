@@ -1,0 +1,63 @@
+<%- include('../layout/header') %>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Your Orders</h1>
+  
+  <% if (orders && orders.length > 0) { %>
+    <% orders.forEach(order => { %>
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Order #<%= order._id %></h5>
+          <small>Placed on: <%= new Date(order.createdAt).toLocaleDateString() %></small>
+        </div>
+        <div class="card-body">
+          <h6>Products:</h6>
+          <ul class="list-group mb-3">
+            <% order.products.forEach(product => { %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= product.productId.productName %>
+                <span>
+                  Quantity: <%= product.quantity %> | 
+                  Price: ₹<%= product.price.toFixed(2) %>
+                </span>
+              </li>
+            <% }) %>
+          </ul>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Total Price:</strong> ₹<%= order.totalPrice.toFixed(2) %></p>
+              <p><strong>Total Quantity:</strong> <%= order.totalQuantity %></p>
+              <p><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+              <p><strong>Payment Status:</strong> 
+                <span class="badge <%= order.paymentStatus === 'Paid' ? 'bg-success' : (order.paymentStatus === 'Pending' ? 'bg-warning' : 'bg-danger') %>">
+                  <%= order.paymentStatus %>
+                </span>
+              </p>
+              <p><strong>Delivery Status:</strong> 
+                <span class="badge <%= order.deliveryStatus === 'Delivered' ? 'bg-success' : (order.deliveryStatus === 'Shipped' ? 'bg-info' : 'bg-secondary') %>">
+                  <%= order.deliveryStatus %>
+                </span>
+              </p>
+            </div>
+            <div class="col-md-6">
+              <h6>Delivery Address:</h6>
+              <address>
+                <%= order.deliveryAddress.fullName %><br>
+                <%= order.deliveryAddress.address %><br>
+                <%= order.deliveryAddress.locality %>, <%= order.deliveryAddress.city %><br>
+                <%= order.deliveryAddress.state %> - <%= order.deliveryAddress.pincode %><br>
+                Phone: <%= order.deliveryAddress.mobileNumber %>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div class="alert alert-info" role="alert">
+      You haven't placed any orders yet. Start shopping to see your orders here!
+    </div>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

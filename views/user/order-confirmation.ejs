@@ -1,0 +1,122 @@
+<%- include('../layout/header') %>
+
+<div class="container-lg shadow-lg my-lg-5 bg-white rounded align-items-center justify-content-center">
+  <!-- navbar -->
+  <nav class="navbar mb-3 navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/user-home">Millions Club</a>
+
+      <ul class="navbar-nav order-lg-last">
+        <li class="nav-item d-none d-lg-block">
+          <a class="nav-link" href="/wishlist"><i class="bi bi-heart"></i></a>
+        </li>
+        <li class="nav-item d-none d-lg-block">
+          <a class="nav-link" href="/cart"><i class="bi bi-cart"></i></a>
+        </li>
+        <li class="nav-item dropdown d-none d-lg-block">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <% if(user) { %>
+              <li><a class="dropdown-item" href="/userProfile?Id=<%= user._id %>">Profile</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            <% } else { %>
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+            <% } %>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Order Confirmation Content -->
+  <div class="row m-4">
+    <div class="col-12 text-center">
+      <h2 class="mb-4">Order Placed Successfully!</h2>
+      <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+    </div>
+  </div>
+
+  <div class="row m-4">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Order Summary</h5>
+          <p class="card-text"><strong>Order ID:</strong> <%= order._id %></p>
+          <p class="card-text"><strong>Total Amount:</strong> ₹<%= order.totalPrice %></p>
+          <p class="card-text"><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+          <p class="card-text"><strong>Delivery Address:</strong></p>
+          <address>
+            <%= order.deliveryAddress.fullName %><br>
+            <%= order.deliveryAddress.address %><br>
+            <%= order.deliveryAddress.locality %>, <%= order.deliveryAddress.city %><br>
+            <%= order.deliveryAddress.state %> - <%= order.deliveryAddress.pincode %><br>
+            Phone: <%= order.deliveryAddress.mobileNumber %>
+          </address>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row m-4">
+    <div class="col-12 text-center">
+      <a href="/user-home" class="btn btn-primary">Continue Shopping</a>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer bg-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h6 class="text-dark">MILLIONZ CLUB</h6>
+          <p>
+            Pulamanthole<br />
+            kerala
+          </p>
+          <p>Call Us: 123-456-789</p>
+          <p>Email: contactinfo@millions.com</p>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-dark">QUICK MENU</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-dark text-decoration-none">Seller</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Clothes</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Accessories</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Return policy</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Refund policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-dark">INFORMATION</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-dark text-decoration-none">About Us</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Brands</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Gift Vouchers</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Site Map</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Accessories</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-dark">MY ACCOUNT</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-dark text-decoration-none">My Account</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Order History</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Wish List</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Order Details</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Wishlist</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <p>&copy; 2021 Millionz Club . All rights reserved. Made By NeOzy.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<%- include('../layout/footer') %>
