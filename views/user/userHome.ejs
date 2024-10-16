@@ -149,11 +149,14 @@
             <a href="#" class="btn btn-danger btn-sm btn-sm-lg">Shop Now</a>
           </div>
           <div class="col-8">
-            <img
+            <% if(typeof products !== 'undefined') {%>
+              <img
               class="product-image main-banner-product-image"
               src="<%= products[0].photos[0] %>"
               alt=""
             />
+              <%{%>
+   
           </div>
         </div>
       </div>
