@@ -28,19 +28,19 @@ app.use(upload.none());
 app.use(flash());
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your secret key',
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl:'mongodb://localhost:27017/MillionsClub',
-      collectionName:'sessions',
-      autoRemove:'interval',
-      autoRemoveInterval:1
-    }),
-    cookie:{
-      maxAge:1000*60*60*24,//1 day age
-    }
-  }));
+  secret: process.env.SESSION_SECRET || 'your secret key',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+      mongoUrl:process.env.MONGODB_URI,
+    collectionName:'sessions',
+    autoRemove:'interval',
+    autoRemoveInterval:1
+  }),
+  cookie:{
+    maxAge:1000*60*60*24,//1 day age
+  }
+}));
 
 app.use(passport.initialize());
 app.use(passport.session())
