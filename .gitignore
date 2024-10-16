@@ -1,4 +1,13 @@
-node_modules
-.DS_Store
+# Dependencies
+/node_modules
+
+# Environment variables
 .env
+.env.backup
+
+# Logs
+*.log
+
+# Operating System Files
 .DS_Store
+Thumbs.db
