@@ -169,11 +169,14 @@
             <a href="#" class="btn btn-danger btn-sm">Shop Now</a>
           </div>
           <div class="col-8">
+
+            <% if(typeof products !== 'undefined') {%>
             <img
               class="product-image main-banner-product-image"
               src="<%= products[1].photos[1] %>"
               alt=""
             />
+            <%}%>
           </div>
         </div>
 
@@ -184,11 +187,13 @@
             <a href="#" class="btn btn-danger btn-sm">Shop Now</a>
           </div>
           <div class="col-8">
+            <% if(typeof products !== 'undefined') {%>
             <img
               class="product-image main-banner-product-image"
               src="<%= products[2].photos[2] %>"
               alt=""
             />
+            <%}%>
           </div>
         </div>
       </div>
