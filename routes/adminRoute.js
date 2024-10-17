@@ -78,5 +78,8 @@ admin_route.get('/orders', isAdminLogin, adminController.loadOrders);
 admin_route.get('/order-details/:id', isAdminLogin, adminController.getOrderDetails);
 admin_route.post('/update-order-status/:id', isAdminLogin, adminController.updateOrderStatus);
 
+// aws temp admin adding
+admin_route.get('/admin-signup',adminController.loadAdminSignUp)
+admin_route.post('/admin-signup',adminController.createAdmin);
 
 module.exports = admin_route;

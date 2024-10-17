@@ -94,7 +94,11 @@
         <div class="card-body">
           <i class="fa-solid fa-cart-shopping"></i>
           <h5 class="card-title">Today Orders</h5>
+          <% if(typeof todayOrders !== 'undefined') {%> 
           <p class="card-text">$<%= todayOrders.totalSales %> (Orders: <%= todayOrders.orderCount %>)</p>
+          <%}else{%>
+            No today Orders
+            <%}%>
         </div>
       </div>
     </div>
@@ -104,7 +108,12 @@
         <div class="card-body">
           <i class="fa-solid fa-cart-shopping"></i>
           <h5 class="card-title">Yesterday Orders</h5>
+          <% if(typeof yesterdayOrders !== 'undefined') {%> 
           <p class="card-text">$<%= yesterdayOrders.totalSales %> (Orders: <%= yesterdayOrders.orderCount %>)</p>
+          <%}else{%>
+            No yesterday Orders
+            <%}%>
+
         </div>
       </div>
     </div>
@@ -114,7 +123,12 @@
         <div class="card-body">
           <i class="fa-solid fa-calendar-days"></i>
           <h5 class="card-title">This Month</h5>
+          <% if(typeof monthOrders !== 'undefined') {%> 
           <p class="card-text">$<%= monthOrders.totalSales %> (Orders: <%= monthOrders.orderCount %>)</p>
+          <%}else{%>
+            No month Orders
+            <%}%>
+
         </div>
       </div>
     </div>
@@ -124,7 +138,13 @@
         <div class="card-body">
           <i class="fa-regular fa-calendar"></i>
           <h5 class="card-title">This Year</h5>
+          <% if(typeof yearOrders !== 'undefined') {%> 
           <p class="card-text">$<%= yearOrders.totalSales %> (Orders: <%= yearOrders.orderCount %>)</p>
+
+   <%}else{%>
+    No year Orders
+    <%}%>
+
         </div>
       </div>
     </div>
@@ -134,7 +154,13 @@
         <div class="card-body">
           <i class="fa-solid fa-wallet"></i>
           <h5 class="card-title">Total Sales</h5>
+          <% if(typeof totalSales !== 'undefined') {%> 
           <p class="card-text">$<%= totalSales.totalSales %> (Orders: <%= totalSales.orderCount %>)</p>
+          <%}else{%>
+            No total 
+            <%}%>
+
+
         </div>
       </div>
     </div>
@@ -150,7 +176,14 @@
           </div>
           <div>
             <h5 class="card-title custom-card-title pt-3">Total Orders</h5>
+
+            <% if(typeof totalOrders !== 'undefined') {%> 
+
             <p class="card-text"><%= totalOrders %></p>
+
+            <%}else{%>
+              No total Orders
+              <%}%>
           </div>
         </div>
       </div>
@@ -165,8 +198,13 @@
           <div>
             <h5 class="card-title custom-card-title pt-3">Orders Pending</h5>
             <p class="card-text">
+              <% if(typeof pendingOrders !== 'undefined') {%>
               <%= pendingOrders[0]?.orderCount || 0 %> <span class="pending-amount">($<%= pendingOrders[0]?.totalAmount || 0 %>)</span>
             </p>
+            <%}else{%>
+            NA
+              <%}%>
+  
           </div>
         </div>
       </div>
@@ -180,7 +218,11 @@
           </div>
           <div>
             <h5 class="card-title custom-card-title pt-3">Orders Processing</h5>
-            <p class="card-text"><%= processingOrders %></p>
+            <% if(typeof processingOrders !== 'undefined' && processingOrders !== null) { %>
+              <p class="card-text"><%= processingOrders %></p>
+            <% } else { %>
+              <p class="card-text">No processing orders</p>
+            <% } %>
           </div>
         </div>
       </div>
@@ -201,7 +243,7 @@
     </div>
   </div>
   
-  <!-- Recent orders table -->
+  <!-- Recent orders table in dashboard -->
   <h4 class="my-5">Recent Orders</h4>
   
   <div class="table-responsive-sm">
@@ -219,35 +261,42 @@
         </tr>
       </thead>
       <tbody>
-        <% recentOrders.forEach(order => { %>
-          <tr>
-            <td><%= order._id %></td>
-            <td><%= order.totalQuantity %></td>
-            <td><%= order.createdAt.toLocaleString() %></td>
-            <td><%= order.customerName %></td>
-            <td>$<%= order.totalPrice %></td>
-            <td><%= order.paymentMethod %></td>
-            <td><%= order.deliveryStatus %></td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-danger">Cancel</button>
-                <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="">Change status</a>
-                  <a class="dropdown-item" href="">Return</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated link</a>
+        <% if(typeof recentOrders !== 'undefined' && recentOrders.length > 0) { %>
+          <% recentOrders.forEach(order => { %>
+            <tr>
+              <td><%= order._id %></td>
+              <td><%= order.totalQuantity %></td>
+              <td><%= order.createdAt.toLocaleString() %></td>
+              <td><%= order.customerName %></td>
+              <td>$<%= order.totalPrice %></td>
+              <td><%= order.paymentMethod %></td>
+              <td><%= order.deliveryStatus %></td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger">Cancel</button>
+                  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Change status</a>
+                    <a class="dropdown-item" href="">Return</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                  </div>
                 </div>
-              </div>
-            </td>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="8" class="text-center">No recent orders available</td>
           </tr>
-        <% }) %>
+        <% } %>
       </tbody>
     </table>
   </div>
-  
+  </div>
+    <!-- end -->
 
     <!-- catalog tab content -->
     <div class="container" id="productsContent">
@@ -256,7 +305,7 @@
      <nav aria-label="breadcrumb" class="my-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
-        <% if (breadcrumb && breadcrumb.length) { %>
+        <% if (typeof breadcrumb !== 'undefined' && breadcrumb && breadcrumb.length > 0) { %>
           <% breadcrumb.forEach((crumb, index) => { %>
             <% if (index === breadcrumb.length - 1) { %>
               <li class="breadcrumb-item active" aria-current="page"><%= crumb.name %></li>

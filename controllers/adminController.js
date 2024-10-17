@@ -8,12 +8,12 @@ const randomString = require("randomstring");
 const nodemailer = require("nodemailer");
 const moment = require("moment");
 const sendMail = require("../auth/sendMail");
-const SendmailTransport = require("nodemailer/lib/sendmail-transport");
+
 
 const fs = require("fs");
 const path = require("path");
-const { query } = require("express");
-const { AwsInstance } = require("twilio/lib/rest/accounts/v1/credential/aws");
+
+
 
 
 
@@ -229,6 +229,58 @@ const loadAddUser = async (req, res) => {
     console.error(error.message);
   }
 };
+
+const loadAdminSignUp = async (req, res) => {
+  try {
+    res.render("adminSignup", { title: "Signup | MILLIONS Club" });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+
+
+const createAdmin = async (req,res)=>{
+  try {
+    const { name, phone, email, password } = req.body;
+
+    const existingUser = await User.findOne({
+      $or: [{ email: email }, { phone: phone }],
+    });
+
+    if (existingUser) {
+      if (existingUser.email == email) {
+        return res.render("signup", { message: "Email ID already registered" });
+      } else if (existingUser.phone == phone) {
+        return res.render("signup", {
+          message: "Mobile number already registered",
+        });
+      }
+    }
+
+    const securedPassword = await securePassword(password);
+
+    const newUser = new User({
+      name: name,
+      phone: phone,
+      email: email,
+      password: securedPassword,
+      email_verified:1,
+      phone_verified:1,
+      is_admin:1,
+
+    });
+
+    const UserData = await newUser.save();
+res.redirect('/admin')
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+
+
 
 const addUser = async (req, res) => {
   try {
@@ -858,5 +910,7 @@ module.exports = {
   getSubcategories,
   loadOrders,
   getOrderDetails,
-  updateOrderStatus
+  updateOrderStatus,
+  createAdmin,
+  loadAdminSignUp
 };
