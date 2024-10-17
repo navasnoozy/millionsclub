@@ -190,6 +190,8 @@ const logout = async (req, res) => {
 
 const mongoose = require('mongoose');
 
+
+
 const userHome = async (req, res) => {
   try {
     let user = null;
@@ -199,8 +201,8 @@ const userHome = async (req, res) => {
       const isValidObjectId = mongoose.Types.ObjectId.isValid(req.session.user_id);
       
       if (isValidObjectId) {
-        user = await User.findById(mongoose.Types.ObjectId(req.session.user_id));
-        cart = await Cart.findOne({ userId: user._id });
+        user = await User.findById(req.session.user_id);
+        cart = await Cart.findOne({ userId: req.session.user_id });
       } else {
         console.error('Invalid ObjectId:', req.session.user_id);
       }
@@ -216,6 +218,7 @@ const userHome = async (req, res) => {
     });
   } catch (error) {
     console.error(error.message);
+    res.status(500).render("error", { message: "An error occurred while loading the home page." });
   }
 };
 
