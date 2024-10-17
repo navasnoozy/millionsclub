@@ -188,14 +188,22 @@ const logout = async (req, res) => {
   }
 };
 
+const mongoose = require('mongoose');
+
 const userHome = async (req, res) => {
   try {
     let user = null;
     let cart = null;
 
     if (req.session.user_id) {
-      user = await User.findById(req.session.user_id);
-      cart = await Cart.findOne({ userId: user._id });
+      const isValidObjectId = mongoose.Types.ObjectId.isValid(req.session.user_id);
+      
+      if (isValidObjectId) {
+        user = await User.findById(mongoose.Types.ObjectId(req.session.user_id));
+        cart = await Cart.findOne({ userId: user._id });
+      } else {
+        console.error('Invalid ObjectId:', req.session.user_id);
+      }
     }
 
     const products = await productModel.find({});
@@ -210,6 +218,7 @@ const userHome = async (req, res) => {
     console.error(error.message);
   }
 };
+
 
 const loadProductPage = async (req, res) => {
   try {
