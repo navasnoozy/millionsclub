@@ -76,7 +76,7 @@ const insertUser = async (req, res) => {
     if (UserData) {
       const mailSubject = "Millions Club : Verify your email";
       const mailContent = `<div style="background-color:  aquamarine; display: flex; justify-content: center; align-items: center; border-radius: 15px; box-shadow: 0 0 1px green; padding: 20px; margin: 20px;">
-    <h2 style="color: green;"> Hi ${UserData.name}!  click <a style="text-decoration: none;" href="http://localhost:5001/verifyEmail?id=${UserData._id}">here</a> to verify your mail id  </h2>
+    <h2 style="color: green;"> Hi ${UserData.name}!  click <a style="text-decoration: none;" href="http://18.232.86.199:5001/verifyEmail?id=${UserData._id}">here</a> to verify your mail id  </h2>
     </div>`;
 
       await sendMail(UserData, mailSubject, mailContent);
