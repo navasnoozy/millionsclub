@@ -144,17 +144,21 @@
       <div class="col-12 col-sm-8">
         <div class="row home-main-banner align-items-center m-2 p-5">
           <div class="col-4">
-            <div>TOMMY HILFIGER</div>
-            <div>$299</div>
-            <a href="#" class="btn btn-danger btn-sm btn-sm-lg">Shop Now</a>
+            <% if(typeof products !== 'undefined') {%>
+            <div><%= products[0].productName %></div>
+            <%}%>
+            <% if(typeof products !== 'undefined') {%>
+            <div>₹ <%= products[0].stock[0].price.salePrice %></div>
+            <%}%>
+            <a href="/user-home/productPage?Id=<%= products[0]._id  %>" class="btn btn-danger btn-sm btn-sm-lg">Shop Now</a>
           </div>
           <div class="col-8">
             <% if(typeof products !== 'undefined') {%>
-              <img
-              class="product-image main-banner-product-image"
-              src="<%= products[0].photos[0] %>"
-              alt=""
-            />
+              <a href="/user-home/productPage?Id=<%= products[0]._id  %>" class="d-flex justify-content-center"> 
+                <img class="product-image main-banner-product-image"
+                src="<%= products[0].photos[0] %>"
+                alt=""/>
+              </a>
  <%}%>
    
           </div>
@@ -164,35 +168,43 @@
       <div class="col-12 col-sm-4 align-items-center">
         <div class="row main-banner-small-1 m-2 p-3 align-items-center">
           <div class="col-4">
-            <div>Adidas pant</div>
-            <div>$299</div>
-            <a href="#" class="btn btn-danger btn-sm">Shop Now</a>
+            <% if(typeof products !== 'undefined') {%>
+              <div><%= products[1].productName %></div>
+              <%}%>
+              <% if(typeof products !== 'undefined') {%>
+                <div>₹ <%= products[1].stock[0].price.salePrice %></div>
+                <%}%>
+            <a href="/user-home/productPage?Id=<%= products[1]._id  %>" class="btn btn-danger btn-sm">Shop Now</a>
           </div>
           <div class="col-8">
 
             <% if(typeof products !== 'undefined') {%>
-            <img
-              class="product-image main-banner-product-image"
-              src="<%= products[1].photos[1] %>"
-              alt=""
-            />
+              <a href="/user-home/productPage?Id=<%= products[1]._id  %>" class="d-flex justify-content-center"> 
+                <img class="product-image main-banner-product-image"
+                src="<%= products[1].photos[0] %>"
+                alt=""/>
+              </a>
             <%}%>
           </div>
         </div>
 
         <div class="row main-banner-small-2 m-2 mt-5 p-3 align-items-center">
           <div class="col-4">
-            <div>Nike shoe</div>
-            <div>$299</div>
-            <a href="#" class="btn btn-danger btn-sm">Shop Now</a>
+            <% if(typeof products !== 'undefined') {%>
+              <div><%= products[2].productName %></div>
+              <%}%>
+            <% if(typeof products !== 'undefined') {%>
+              <div>₹ <%= products[2].stock[0].price.salePrice %></div>
+              <%}%>
+            <a href="/user-home/productPage?Id=<%= products[2]._id  %>" class="btn btn-danger btn-sm">Shop Now</a>
           </div>
           <div class="col-8">
             <% if(typeof products !== 'undefined') {%>
-            <img
-              class="product-image main-banner-product-image"
-              src="<%= products[2].photos[2] %>"
-              alt=""
-            />
+              <a href="/user-home/productPage?Id=<%= products[2]._id  %>" class="d-flex justify-content-center"> 
+                <img class="product-image main-banner-product-image"
+                src="<%= products[2].photos[0] %>"
+                alt=""/>
+              </a>
             <%}%>
           </div>
         </div>
