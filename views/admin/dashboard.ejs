@@ -95,7 +95,7 @@
           <i class="fa-solid fa-cart-shopping"></i>
           <h5 class="card-title">Today Orders</h5>
           <% if(typeof todayOrders !== 'undefined') {%> 
-          <p class="card-text">$<%= todayOrders.totalSales %> (Orders: <%= todayOrders.orderCount %>)</p>
+          <p class="card-text">₹ <%= todayOrders.totalSales %> (Orders: <%= todayOrders.orderCount %>)</p>
           <%}else{%>
             No today Orders
             <%}%>
@@ -109,7 +109,7 @@
           <i class="fa-solid fa-cart-shopping"></i>
           <h5 class="card-title">Yesterday Orders</h5>
           <% if(typeof yesterdayOrders !== 'undefined') {%> 
-          <p class="card-text">$<%= yesterdayOrders.totalSales %> (Orders: <%= yesterdayOrders.orderCount %>)</p>
+          <p class="card-text">₹ <%= yesterdayOrders.totalSales %> (Orders: <%= yesterdayOrders.orderCount %>)</p>
           <%}else{%>
             No yesterday Orders
             <%}%>
@@ -124,7 +124,7 @@
           <i class="fa-solid fa-calendar-days"></i>
           <h5 class="card-title">This Month</h5>
           <% if(typeof monthOrders !== 'undefined') {%> 
-          <p class="card-text">$<%= monthOrders.totalSales %> (Orders: <%= monthOrders.orderCount %>)</p>
+          <p class="card-text">₹ <%= monthOrders.totalSales %> (Orders: <%= monthOrders.orderCount %>)</p>
           <%}else{%>
             No month Orders
             <%}%>
@@ -139,7 +139,7 @@
           <i class="fa-regular fa-calendar"></i>
           <h5 class="card-title">This Year</h5>
           <% if(typeof yearOrders !== 'undefined') {%> 
-          <p class="card-text">$<%= yearOrders.totalSales %> (Orders: <%= yearOrders.orderCount %>)</p>
+          <p class="card-text">₹ <%= yearOrders.totalSales %> (Orders: <%= yearOrders.orderCount %>)</p>
 
    <%}else{%>
     No year Orders
@@ -155,7 +155,7 @@
           <i class="fa-solid fa-wallet"></i>
           <h5 class="card-title">Total Sales</h5>
           <% if(typeof totalSales !== 'undefined') {%> 
-          <p class="card-text">$<%= totalSales.totalSales %> (Orders: <%= totalSales.orderCount %>)</p>
+          <p class="card-text">₹ <%= totalSales.totalSales %> (Orders: <%= totalSales.orderCount %>)</p>
           <%}else{%>
             No total 
             <%}%>
@@ -199,7 +199,7 @@
             <h5 class="card-title custom-card-title pt-3">Orders Pending</h5>
             <p class="card-text">
               <% if(typeof pendingOrders !== 'undefined') {%>
-              <%= pendingOrders[0]?.orderCount || 0 %> <span class="pending-amount">($<%= pendingOrders[0]?.totalAmount || 0 %>)</span>
+              <%= pendingOrders[0]?.orderCount || 0 %> <span class="pending-amount">(₹ <%= pendingOrders[0]?.totalAmount || 0 %>)</span>
             </p>
             <%}else{%>
             NA
@@ -268,7 +268,7 @@
               <td><%= order.totalQuantity %></td>
               <td><%= order.createdAt.toLocaleString() %></td>
               <td><%= order.customerName %></td>
-              <td>$<%= order.totalPrice %></td>
+              <td>₹ <%= order.totalPrice %></td>
               <td><%= order.paymentMethod %></td>
               <td><%= order.deliveryStatus %></td>
               <td>
@@ -703,7 +703,7 @@
               <td><%= order._id %></td>
               <td><%= order.userId.name %></td>
               <td><%= moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss') %></td>
-              <td>$<%= order.totalPrice.toFixed(2) %></td>
+              <td>₹ <%= order.totalPrice.toFixed(2) %></td>
               <td><span class="badge bg-<%= order.paymentStatus === 'Paid' ? 'success' : 'warning' %>"><%= order.paymentStatus %></span></td>
               <td>
                 <select class="form-select form-select-sm delivery-status" data-order-id="<%= order._id %>">
